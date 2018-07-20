@@ -9,6 +9,18 @@ var config = {
 firebase.initializeApp(config);
 var ref = firebase.database().ref('/posts/');   //firebase的database
 
+$('#addlines').click(function(){
+    var length = $("#container").find(".row").length - 1;
+    for(var i = length ; i <= length + 5 ; i++){
+        cloneObj = $("#container").find(".row").first().clone();
+        cloneObj.find('input').val("");
+        cloneObj.find('input').attr('name', 'input' + (i+2).toString());
+        $("#container").find(".row > i").eq(i)[0].textContent = (i+1).toString() + ". "
+        if(i != length + 5) 
+            $("#container").append(cloneObj);
+    }
+});
+
 $('#random').click(function(){
     var inputs = $("#container").find('input');
     var name, rst, updatedObj;
