@@ -1,0 +1,101 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="http://kendo.cdn.telerik.com/2017.1.118/styles/kendo.common.min.css"/>
+		<link rel="stylesheet" href="http://kendo.cdn.telerik.com/2017.1.118/styles/kendo.rtl.min.css"/>
+		<link rel="stylesheet" href="http://kendo.cdn.telerik.com/2017.1.118/styles/kendo.silver.min.css"/>
+		<link rel="stylesheet" href="http://kendo.cdn.telerik.com/2017.1.118/styles/kendo.mobile.all.min.css"/>
+	</head>
+	<style>
+		/* p {color:blue;} */
+		div.panel {
+			text-align: left;
+			width: 500px;
+		}
+		div.info {
+			text-align: right;
+			width: 500px;
+		}
+		body {
+			/* The image used */
+			background-image: url("img/kara2.jpeg");
+
+			/* Full height */
+			height: 100%; 
+
+			/* Center and scale the image nicely */
+			background-position: center;
+			background-repeat: no-repeat;
+			background-size: cover;
+		}
+		.class {
+			padding-left:300px
+		}
+		.name {
+			padding-left:0px
+		}
+	</style>
+	<body>
+		<br/><br/>
+		<!-- <div class="col-xs-5">
+			<a class="btn jquery-word-export" href="javascript:void(0)">
+				Export as .doc
+			</a>
+		</div> -->
+		<div class="centerDiv" align="center">
+			<button type="button" id="pdf" data-role="button"><b>PDF</b></button>
+			<br/><br/>
+			<div id="centext">
+				<span class="class" style="width:300px">Class:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+				<span class="name" style="width:300px">Name:</span>
+				<div class="info"></div>
+				<br/><br/>
+				<div id="page-content" class="panel panel-default">
+					<div id="result"><div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
+
+<script src="script/jquery-3.1.0.min.js"></script>
+<script src="script/kendo.all.min.js"></script>
+<script src="script/FileSaver.js"></script>
+<script src="extendMethod.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.1.0/firebase.js"></script>
+<script src="https://unpkg.com/jspdf@latest/dist/jspdf.min.js"></script>
+<script type="text/javascript">
+	// Initialize Firebase
+	var config = {
+		apiKey: "AIzaSyBkKb_V4GAAP0mo8HO_YbauenQgf4YFQ2o",
+		authDomain: "fir-first-3ed45.firebaseapp.com",
+		databaseURL: "https://fir-first-3ed45.firebaseio.com",
+		projectId: "fir-first-3ed45",
+		storageBucket: "fir-first-3ed45.appspot.com",
+	};
+	firebase.initializeApp(config);
+	var ref = firebase.database().ref('/posts/');   //firebase的database	
+	
+	$(function(){
+	
+		kendo.init("button");
+		ref.once('value', function(snapshot) {
+			var val = snapshot.val();
+			var i = 1;
+			for(var prop in val){
+				
+				$('#result').append('<b>' + (i++).toString()).append('. </b>');
+				$('#result').append('<b>' + val[prop] + '</b>');
+				$('#result').append('<br/><br/> &nbsp;&nbsp;&nbsp;_______________________________________________________<br/><br/>');
+			}
+			
+		});
+		
+	});
+	
+	$('#pdf').click(function(){
+		var doc = new jsPDF();
+
+		doc.text($('#centext')[0].innerText, 10, 10);
+		doc.save('scramble.pdf');
+	});
+</script>

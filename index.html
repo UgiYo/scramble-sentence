@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://kendo.cdn.telerik.com/2017.1.118/styles/kendo.common.min.css"/>
+	<link rel="stylesheet" href="http://kendo.cdn.telerik.com/2017.1.118/styles/kendo.rtl.min.css"/>
+	<link rel="stylesheet" href="http://kendo.cdn.telerik.com/2017.1.118/styles/kendo.silver.min.css"/>
+	<link rel="stylesheet" href="http://kendo.cdn.telerik.com/2017.1.118/styles/kendo.mobile.all.min.css"/>
+</head>
+<style>
+    /* p {color:blue;} */
+    form {
+        margin: 2ch;
+    }
+    .funcBtn, textarea {
+        margin-left: 2ch;
+    }
+    .row {
+        margin: 2ch;
+    }
+</style>
+<body>
+    <form action="" id="mainForm"  align="center">
+        <div class="funcBtn">
+            <button type="button" id="addline" onclick="GenLineTextList('table')" class="k-primary" data-role="button"><b>Add a new line</b></button>
+            <button type="button" id="random" data-role="button"><b>Random Generate</b></button>
+        </div>
+        <div>
+            <br/>
+                <div id="container">
+                    <div class="rowBox">
+                        <div class="row">
+                            <i></i><input name="input1" type="text" class="k-textbox" style="width: 600px;">
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </form>
+</body>
+</html>
+<script src="script/jquery-3.1.0.min.js"></script>
+<script src="script/kendo.all.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.1.0/firebase.js"></script>
+<script src="customMethod.js"></script>
+
+<script>
+  // Initialize Firebase
+  // TODO: Replace with your project's customized code snippet
+  var config = {
+    apiKey: "AIzaSyBkKb_V4GAAP0mo8HO_YbauenQgf4YFQ2o",
+    authDomain: "fir-first-3ed45.firebaseapp.com",
+    databaseURL: "https://fir-first-3ed45.firebaseio.com",
+    projectId: "fir-first-3ed45",
+    storageBucket: "fir-first-3ed45.appspot.com",
+  };
+  firebase.initializeApp(config);
+</script>
+<script>
+    $(function(){
+        // Initialize another app with a different config
+        var refOtherApp = firebase.database().ref('/posts/');
+        
+        kendo.init("form");
+        var cloneObj, max = 10;
+        
+        //產生input輸入框
+        for(var i = 0 ; i < max ; i++){
+            cloneObj = $("#container").find(".row").first().clone();
+            cloneObj.find('input').attr('name', 'input' + (i+2).toString());
+            $("#container").find(".row > i").eq(i)[0].textContent = (i+1).toString() + ". "
+            if(i != max - 1) $("#container").append(cloneObj);
+        }
+
+        var str = $('#mainForm').serialize();
+        console.log(str)
+        // debugger
+        
+        // var ref = firebase.database().ref('/posts/');   //firebase的database
+        // ref.push({
+        //     apple: "1",
+        //     bee: "2"
+        // });
+
+        // ref.on('value', function(snapshot) {
+        //     var val = snapshot.val();
+        //     // do something
+            
+        //     $('#container').find('.row:eq(0) > input').val(val);
+        // });
+        // // ref.child(key).remove();
+        
+    });
+</script>
