@@ -22,11 +22,23 @@
     .row {
         margin: 2ch;
     }
+    body {
+			/* The image used */
+			background-image: url("img/comic.jpg");
+
+			/* Full height */
+			height: 100%; 
+
+			/* Center and scale the image nicely */
+			background-position: center;
+			background-repeat: no-repeat;
+			background-size: cover;
+		}
 </style>
 <body>
-    <form action="" id="mainForm"  align="center">
+    <form action="" id="mainForm">
         <div class="funcBtn">
-            <button type="button" id="addline" onclick="GenLineTextList('table')" class="k-primary" data-role="button"><b>Add a new line</b></button>
+            <button type="button" id="addlines" class="k-primary" data-role="button"><b>Add lines</b></button>
             <button type="button" id="random" data-role="button"><b>Random Generate</b></button>
         </div>
         <div>
